@@ -24,3 +24,24 @@ tick();setInterval(tick,1000);
 document.getElementById('lockBtn').onclick=()=>setLock(!locked);
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 render();
+const BACKEND_KEY='ac_owner_backend_url';
+let backendUrl=(localStorage.getItem(BACKEND_KEY)||'').replace(/\\/$/,'');
+function setConnection(text){connectionState.textContent=text}
+async function backendHealth(){
+  if(!backendUrl){setConnection('LOCAL TEST MODE');return false}
+  setConnection('BACKEND CHECK…');
+  try{const r=await fetch(backendUrl+'/api/health',{credentials:'include',cache:'no-store'});if(!r.ok)throw new Error('health');setConnection('BACKEND ONLINE');return true}catch(e){setConnection('BACKEND OFFLINE');return false}
+}
+async function configureBackend(){
+  const current=backendUrl||'none';
+  const value=prompt('Backend URL (example: http://127.0.0.1:8787). Leave empty for local test mode.',current==='none'?'':current);
+  if(value===null)return;
+  backendUrl=value.trim().replace(/\\/$/,'');
+  if(backendUrl)localStorage.setItem(BACKEND_KEY,backendUrl);else localStorage.removeItem(BACKEND_KEY);
+  document.getElementById('backendBtn').textContent=backendUrl?'⚙ BACKEND: '+backendUrl:'⚙ BACKEND: LOCAL TEST';
+  const ok=await backendHealth();
+  showToast(ok?'Backend connected (health check)':'Backend not reachable — local test remains active');
+}
+document.getElementById('backendBtn').onclick=configureBackend;
+document.getElementById('backendBtn').textContent=backendUrl?'⚙ BACKEND: '+backendUrl:'⚙ BACKEND: LOCAL TEST';
+backendHealth();
