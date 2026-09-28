@@ -4,7 +4,7 @@ Private, mobile-first Owner Control Center.
 
 ## Build status
 
-The independent control-room build is complete through the current standalone backend foundation.
+The independent Owner Control Center is complete through the required standalone control foundation and fail-closed STOP ALL control.
 
 ### Completed build stages
 2. Owner Security shell
@@ -25,15 +25,21 @@ The independent control-room build is complete through the current standalone ba
 17. Security & production checklist
 18. Hard integration boundary
 19. Standalone backend runtime foundation and contract smoke test
+20. Optional frontend backend connection and health check
+21. Backend dashboard data loading
+22. Owner login/logout session controls
+23. Server-side owner lock/unlock
+24. Required STOP ALL backend request with fail-closed frontend behavior
 
 ## Current behavior
 
-- GitHub Pages runs with clearly labeled independent test data.
+- GitHub Pages runs with clearly labeled independent test/demo data.
 - The frontend remains safe to use without a backend.
-- Backend Stage 19 is a separate local runtime foundation; it is not deployed yet.
+- Backend is a separate local runtime foundation and is not claimed as deployed.
 - Owner authentication uses a server-side password hash, HttpOnly SameSite session cookie, expiry, rate limiting, and server-side lock handling when the backend is configured.
 - Privileged backend routes require an authenticated owner session.
-- STOP ALL remains fail-closed and simulation-only while no services are connected.
+- STOP ALL requires the backend connection and authenticated owner session; if unavailable, the frontend blocks the action and does not create a local override.
+- The backend STOP ALL endpoint is fail-closed and currently returns a non-executing result because no real services are connected.
 - Backend audit records are stored locally for development.
 - The PWA service worker provides a local/offline cache after the first successful load.
 - No payment provider, payout provider, external API, webhook, or XKiss connection is active.
@@ -60,6 +66,8 @@ All names, amounts, users, events, payment values and provider labels shown by t
 
 ## Standalone completion boundary
 
-Stages 16-19 establish the backend contract, security checklist, hard integration boundary, and a local backend foundation. The Owner Control Center remains standalone and **DISCONNECTED BY DESIGN** from XKiss until a future separately reviewed integration phase.
+Stages 16-24 establish the backend contract, security checklist, hard integration boundary, local backend foundation, owner session controls, server-side lock/unlock, and required fail-closed STOP ALL path.
 
-A backend deployment is not claimed until a real hosting/database environment is selected, configured, tested, and verified.
+The Owner Control Center is now complete for the current standalone scope and remains **DISCONNECTED BY DESIGN** from XKiss.
+
+A real production deployment is not claimed until a real hosting/database environment is selected, configured, tested, and verified. Future XKiss integration, if wanted, must be a separate reviewed phase.
