@@ -53,3 +53,8 @@ All names, amounts, users, events, payment values and provider labels shown by t
 ## Next phase
 
 Only after the independent control center is accepted as a standalone project should a separate backend/security deployment be considered. Any future XKiss connector must be designed and reviewed separately; it must not directly modify the XKiss repository from this frontend.
+
+
+## Standalone completion boundary
+
+Stages 16-18 establish the backend security contract, production security checklist, and a hard integration boundary. The Owner Control Center remains standalone and **DISCONNECTED BY DESIGN** from XKiss until a future separately reviewed integration phase.
