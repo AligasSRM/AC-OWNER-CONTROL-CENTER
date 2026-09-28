@@ -49,7 +49,22 @@ async function configureBackend(){
   backendUrl=value.trim().replace(/\\/$/,'');
   if(backendUrl)localStorage.setItem(BACKEND_KEY,backendUrl);else localStorage.removeItem(BACKEND_KEY);
   document.getElementById('backendBtn').textContent=backendUrl?'⚙ BACKEND: '+backendUrl:'⚙ BACKEND: LOCAL TEST';
-  const ok=await backendHealth();
+  const ok=await 
+async function ownerSession(){
+ if(!backendUrl){setConnection('LOCAL TEST MODE');return false}
+ try{const r=await fetch(backendUrl+'/api/auth/session',{credentials:'include',cache:'no-store'});const s=await r.json();if(s.authenticated){ownerStatus.textContent=s.locked?'LOCKED':'AUTHENTICATED';ownerStatus.className=s.locked?'bad':'ok';setConnection('OWNER SESSION ACTIVE');return true}ownerStatus.textContent='SECURE';return false}catch(e){return false}
+}
+async function ownerLogin(){
+ if(!backendUrl){showToast('Set a backend URL first');return}
+ const email=prompt('Owner email'); if(email===null)return;
+ const password=prompt('Owner password'); if(password===null)return;
+ try{const r=await fetch(backendUrl+'/api/auth/login',{method:'POST',credentials:'include',headers:{'content-type':'application/json'},body:JSON.stringify({email,password})});const d=await r.json();if(!r.ok)throw new Error(d.error||'LOGIN_FAILED');showToast('Owner login successful');await ownerSession();loadBackendData().then(ok=>{if(ok)render('overview')})}catch(e){showToast('Owner login failed: '+e.message)}}
+async function ownerLogout(){if(!backendUrl){showToast('Local test mode');return}try{await fetch(backendUrl+'/api/auth/logout',{method:'POST',credentials:'include'});ownerStatus.textContent='SECURE';ownerStatus.className='ok';setConnection('BACKEND ONLINE — LOGGED OUT');showToast('Owner logged out')}catch(e){showToast('Logout failed')}}
+document.getElementById('loginBtn').onclick=ownerLogin;
+document.getElementById('logoutBtn').onclick=ownerLogout;
+ownerSession();
+
+backendHealth();
 loadBackendData().then(ok=>{if(ok)render('overview')});
   showToast(ok?'Backend connected (health check)':'Backend not reachable — local test remains active');
 }
