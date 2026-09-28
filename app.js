@@ -28,7 +28,12 @@ async function loadBackendData(){
   const rows=state.events.length?state.events.map(e=>e.time+' '+e.action+' '+e.target):d.rows;
   view.innerHTML='<div class="section-title"><h2>Audit Log</h2><small>Local test audit</small></div><section class="panel">'+filteredRows(rows).map(x=>'<div class="row"><span>'+x+'</span><span class="ok">LOG</span></div>').join('')+'</section><button class="secondary" id="clearAudit">Clear local test events</button>';document.getElementById('clearAudit').onclick=()=>{state.events=[];localStorage.removeItem('ac_owner_events');logEvent('AUDIT_RESET','local-test');showToast('Local test audit reset');render('audit')};
  }else{view.innerHTML='<div class="section-title"><h2>'+d.title+'</h2><small>Independent test data</small></div><div class="toolbar"><select id="filter" class="filter"><option value="all">All records</option><option value="online">Online</option><option value="ok">OK</option><option value="pending">Pending</option><option value="failed">Failed</option></select><button id="moduleRefresh" class="filter">↻ Refresh</button></div><section class="panel">'+moduleRows(d)+'</section>';document.getElementById('filter').value=filter;document.getElementById('filter').onchange=e=>{filter=e.target.value;render(k)};document.getElementById('moduleRefresh').onclick=()=>showToast(d.title+' refreshed (test data)')}}
-function setLock(next){locked=next;ownerStatus.textContent=locked?'LOCKED':'SECURE';ownerStatus.className=locked?'bad':'ok';document.body.classList.toggle('locked',locked);logEvent(locked?'OWNER_LOCK':'OWNER_UNLOCK','control-center');showToast(locked?'Owner control locked':'Owner control unlocked');}
+async function setLock(next){
+ if(backendUrl){
+  try{const r=await fetch(backendUrl+(next?'/api/auth/lock':'/api/auth/unlock'),{method:'POST',credentials:'include',cache:'no-store'});const d=await r.json();if(!r.ok)throw new Error(d.error||'LOCK_FAILED');locked=Boolean(d.locked);ownerStatus.textContent=locked?'LOCKED':'AUTHENTICATED';ownerStatus.className=locked?'bad':'ok';document.body.classList.toggle('locked',locked);logEvent(locked?'OWNER_LOCK':'OWNER_UNLOCK','backend');showToast(locked?'Owner control locked':'Owner control unlocked');return}catch(e){showToast('Server lock failed — no local override');return}
+ }
+ locked=next;ownerStatus.textContent=locked?'LOCKED':'SECURE';ownerStatus.className=locked?'bad':'ok';document.body.classList.toggle('locked',locked);logEvent(locked?'OWNER_LOCK':'OWNER_UNLOCK','local-test');showToast(locked?'Owner control locked':'Owner control unlocked');
+}
 function tick(){clock.textContent=new Date().toLocaleTimeString([], {hour12:false})}
 tick();setInterval(tick,1000);
 document.getElementById('lockBtn').onclick=()=>setLock(!locked);
