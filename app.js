@@ -1,0 +1,1 @@
+const lock=document.getElementById('lockBtn');lock.addEventListener('click',()=>alert('Owner Control Center locked.'));document.querySelector('.stop').addEventListener('click',()=>{if(confirm('STOP ALL actions?'))alert('STOP ALL requested. Backend control will be connected later.');});
