@@ -1,7 +1,28 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050b14"><link rel="stylesheet" href="styles.css"><title>AC Owner Control Center</title></head><body><main class="app">
-<header class="topbar"><div><span class="live">● LIVE</span><h1>AC Owner Control Center</h1><small>Private mobile control room</small></div><button id="lockBtn">🔒</button></header>
-<section class="hero"><div><b>OWNER STATUS</b><strong>SECURE</strong></div><div id="clock">--:--:--</div></section>
-<nav id="nav" class="nav"></nav>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b14">
+<meta name="description" content="Private mobile Owner Control Center">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+<title>AC Owner Control Center</title>
+</head>
+<body>
+<main class="app">
+<header class="topbar">
+  <div><span class="live">● LIVE</span><h1>AC Owner Control Center</h1><small>Private mobile control room</small></div>
+  <button id="lockBtn" aria-label="Lock owner control">🔒</button>
+</header>
+<section class="hero">
+  <div><b>OWNER STATUS</b><strong id="ownerStatus">SECURE</strong></div>
+  <div><span id="clock">--:--:--</span><small id="connectionState">LOCAL TEST MODE</small></div>
+</section>
+<nav id="nav" class="nav" aria-label="Control modules"></nav>
 <section id="view"></section>
-<div id="toast" class="toast"></div>
-</main><script src="app.js"></script></body></html>
+<div id="toast" class="toast" role="status"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
