@@ -1,0 +1,14 @@
+INSERT INTO owner_accounts VALUES('owner_demo','owner@example.invalid','DEMO_ONLY','2026-09-28T23:00:00Z','2026-09-28T23:44:00Z','SECURE');
+INSERT INTO users VALUES('user_1284','Demo User 1284','user1284@example.invalid','online','2026-09-28T20:00:00Z','2026-09-28T23:43:00Z','SECURE');
+INSERT INTO users VALUES('user_1190','Demo User 1190','user1190@example.invalid','offline','2026-09-28T19:00:00Z','2026-09-28T23:40:00Z','SECURE');
+INSERT INTO videos VALUES('video_0342','owner_demo','Demo Video 0342','uploaded','2026-09-28T23:43:00Z',NULL,0,0);
+INSERT INTO videos VALUES('video_0318','owner_demo','Demo Video 0318','published','2026-09-28T23:39:00Z','2026-09-28T23:40:00Z',18492,6731);
+INSERT INTO payments VALUES('payment_demo_1','user_1284',4820,'USD','completed','test-provider','2026-09-28T23:00:00Z','2026-09-28T23:10:00Z');
+INSERT INTO payouts VALUES('payout_demo_1','owner_demo',1260,'USD','paid','2026-09-28T23:20:00Z','2026-09-28T23:30:00Z');
+INSERT INTO events VALUES('event_demo_1','USER_LOGIN','user_1284','user','user_1284','{"mode":"test"}','2026-09-28T23:43:00Z','ok');
+INSERT INTO events VALUES('event_demo_2','VIDEO_UPLOADED','owner_demo','video','video_0342','{"mode":"test"}','2026-09-28T23:42:00Z','ok');
+INSERT INTO audit_logs VALUES('audit_demo_1','owner_demo','OWNER_LOGIN','owner','owner_demo','{"mode":"test"}','2026-09-28T23:44:00Z');
+INSERT INTO alerts VALUES('alert_demo_1','info','Demo alert','Independent test alert only.','open','2026-09-28T23:44:00Z',NULL);
+INSERT INTO system_health VALUES('frontend','Frontend','online',0,'2026-09-28T23:44:00Z');
+INSERT INTO system_health VALUES('database','Database','ready',0,'2026-09-28T23:44:00Z');
+INSERT INTO system_health VALUES('event-pipeline','Event pipeline','ready',0,'2026-09-28T23:44:00Z');
