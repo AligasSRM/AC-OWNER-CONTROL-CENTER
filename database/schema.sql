@@ -1,0 +1,16 @@
+CREATE TABLE owner_accounts(owner_id TEXT PRIMARY KEY,email TEXT UNIQUE NOT NULL,password_hash TEXT,created_at TEXT NOT NULL,last_login TEXT,security_status TEXT NOT NULL);
+CREATE TABLE sessions(session_id TEXT PRIMARY KEY,owner_id TEXT NOT NULL,created_at TEXT NOT NULL,expires_at TEXT NOT NULL,revoked INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE users(user_id TEXT PRIMARY KEY,name TEXT,email TEXT,status TEXT,created_at TEXT,last_login TEXT,security_status TEXT);
+CREATE TABLE videos(video_id TEXT PRIMARY KEY,owner_id TEXT,title TEXT,status TEXT,uploaded_at TEXT,published_at TEXT,views INTEGER DEFAULT 0,likes INTEGER DEFAULT 0);
+CREATE TABLE views(view_id TEXT PRIMARY KEY,video_id TEXT,user_id TEXT,session_id TEXT,watched_seconds INTEGER DEFAULT 0,qualified INTEGER DEFAULT 0,counted INTEGER DEFAULT 0,occurred_at TEXT);
+CREATE TABLE likes(like_id TEXT PRIMARY KEY,video_id TEXT,user_id TEXT,occurred_at TEXT);
+CREATE TABLE payments(payment_id TEXT PRIMARY KEY,user_id TEXT,amount NUMERIC,currency TEXT,status TEXT,provider TEXT,created_at TEXT,completed_at TEXT);
+CREATE TABLE wallet_transactions(transaction_id TEXT PRIMARY KEY,user_id TEXT,type TEXT,amount NUMERIC,currency TEXT,status TEXT,reference_id TEXT,created_at TEXT);
+CREATE TABLE payouts(payout_id TEXT PRIMARY KEY,user_id TEXT,amount NUMERIC,currency TEXT,status TEXT,requested_at TEXT,processed_at TEXT);
+CREATE TABLE events(event_id TEXT PRIMARY KEY,event_type TEXT,actor_id TEXT,target_type TEXT,target_id TEXT,metadata TEXT,occurred_at TEXT,status TEXT);
+CREATE TABLE audit_logs(audit_id TEXT PRIMARY KEY,owner_id TEXT,action TEXT,target_type TEXT,target_id TEXT,metadata TEXT,occurred_at TEXT);
+CREATE TABLE alerts(alert_id TEXT PRIMARY KEY,severity TEXT,title TEXT,message TEXT,status TEXT,created_at TEXT,acknowledged_at TEXT);
+CREATE TABLE system_health(service_id TEXT PRIMARY KEY,name TEXT,status TEXT,latency_ms INTEGER,checked_at TEXT);
+CREATE INDEX idx_events_occurred_at ON events(occurred_at);
+CREATE INDEX idx_views_video ON views(video_id);
+CREATE INDEX idx_audit_occurred_at ON audit_logs(occurred_at);
