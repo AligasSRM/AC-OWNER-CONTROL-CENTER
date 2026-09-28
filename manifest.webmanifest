@@ -1,0 +1,10 @@
+{
+  "name":"AC Owner Control Center",
+  "short_name":"AC Control",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#050b14",
+  "theme_color":"#050b14",
+  "description":"Private mobile Owner Control Center",
+  "icons":[]
+}
