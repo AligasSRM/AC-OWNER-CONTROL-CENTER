@@ -6,7 +6,9 @@ const ownerStatus = document.getElementById('ownerStatus');
 const connectionState = document.getElementById('connectionState');
 
 const BACKEND_KEY = 'ac_owner_backend_url';
-let backendUrl = (localStorage.getItem(BACKEND_KEY) || '').replace(/\/$/, '');
+const DEFAULT_BACKEND_URL = 'https://ac-owner-control-backend.hostless.app';
+let backendUrl = (localStorage.getItem(BACKEND_KEY) || DEFAULT_BACKEND_URL).replace(/\/$/, '');
+if (!localStorage.getItem(BACKEND_KEY)) localStorage.setItem(BACKEND_KEY, backendUrl);
 let locked = false;
 let filter = 'all';
 
