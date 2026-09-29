@@ -228,6 +228,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, "127.0.0.1", () => {
-  console.log(`AC Owner Control backend listening on http://127.0.0.1:${PORT}`);
+const HOST = process.env.HOST || "0.0.0.0";
+server.listen(PORT, HOST, () => {
+  console.log(`AC Owner Control backend listening on http://${HOST}:${PORT}`);
 });
